@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Glitched Call</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 960px;
+      height: 540px;
+      overflow: hidden;
+      font-family: 'Playfair Display', serif;
+      background-image: url("castle.jpg");
+      background-size: cover;
+      background-position: center;
+      color: #4b004b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .container {
+      background: rgba(255, 240, 250, 0.92);
+      border: 3px solid #ffc0cb;
+      border-radius: 16px;
+      padding: 20px 35px;
+      text-align: center;
+      max-width: 85%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(6px);
+      animation: fadeSlideIn 1.5s ease forwards;
+      position: relative;
+      z-index: 10;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      color: #8B008B;
+      font-size: 2.2em;
+      margin-bottom: 16px;
+      font-family: 'Great Vibes', cursive;
+    }
+
+    p {
+      font-size: 1em;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .chat-bubble {
+      background: #fffaf0;
+      border-left: 4px solid pink;
+      padding: 12px 18px;
+      border-radius: 10px;
+      margin: 15px auto;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1em;
+      color: #333;
+      max-width: 90%;
+    }
+
+    .choice-button {
+      margin: 8px 12px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background: gold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      color: #4b004b;
+    }
+
+    .choice-button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+
+    .choice-button:active {
+      transform: scale(0.95);
+    }
+
+    .button-group {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    /* Glitch Overlay */
+    .glitch-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      animation: glitchOverlay 2s linear infinite;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    @keyframes glitchOverlay {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+
+    /* Sparkle Cursor */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: sparkleFade 0.5s forwards;
+      filter: drop-shadow(0 0 3px gold);
+      z-index: 9999;
+    }
+
+    @keyframes sparkleFade {
+      to {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Glitch overlay -->
+  <div class="glitch-overlay"></div>
+
+  <div class="container">
+    <h1>The Glitched Call</h1>
+    <p>Aurora accepts the prince's invitation to a magical video call.</p>
+    <p>But... something is strange. His eyes never blink. His mouth moves oddly. Could this be a trick?</p>
+    <div class="chat-bubble">“Don’t worry, my princess. Just look into my eyes...”</div>
+    <p><strong>What should Aurora do?</strong></p>
+
+    <div class="button-group">
+      <a href="page5.html"><button class="choice-button">Ask him to hold up a specific object</button></a>
+      <a href="page6.html"><button class="choice-button">Ignore it, maybe it's lag</button></a>
+      <a href="page7.html"><button class="choice-button">Send the clip to her fairy godmother</button></a>
+    </div>
+  </div>
+
+  <script>
+    // Magical sparkle trail
+    document.addEventListener('mousemove', e => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.pageX + 'px';
+      sparkle.style.top = e.pageY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 500);
+    });
+  </script>
+</body>
+</html>
+
+

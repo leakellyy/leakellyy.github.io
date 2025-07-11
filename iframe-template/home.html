@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Princess Aurora Goes Online</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("livingroom.jpg"); 
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      font-family: 'Georgia', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 2px 2px 4px #000;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .scene {
+      position: relative;
+      width: 960px;
+      height: 540px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .character {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      max-height: 300px;
+      z-index: 15;
+      transform: translateX(390px) translateY(-138px);
+      animation: floatAurora 4s ease-in-out infinite, fadeIn 1.5s forwards;
+      pointer-events: none;
+    }
+
+    .container {
+      background: rgba(255, 240, 250, 0.8); 
+      border: 3px solid #ffc0cb; 
+      border-radius: 20px;
+      padding: 30px 40px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      animation: fadeIn 1.5s forwards;
+      position: relative;
+      z-index: 10;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    h1 {
+      color: #8B008B;
+      text-shadow: 1px 1px 3px #fff;
+      font-size: 2.2em;
+      margin-bottom: 20px;
+    }
+
+    .play-button {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 1.5em;
+      background: rgb(255, 118, 223);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      position: relative;
+      z-index: 20;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: pulseGlow 2s infinite;
+    }
+
+    .play-button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes floatAurora {
+      0%, 100% { transform: translateX(390px) translateY(-138px); }
+      50% { transform: translateX(390px) translateY(-148px); }
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 10px #ffb6c1; }
+      50% { box-shadow: 0 0 20px #ff69b4, 0 0 30px gold; }
+      100% { box-shadow: 0 0 10px #ffb6c1; }
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: floatUp 6s linear forwards;
+      filter: drop-shadow(0 0 2px white);
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-200px) translateX(30px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <!-- Princess Aurora image -->
+    <img src="aurora.png" alt="Princess Aurora" class="character">
+
+    <!-- Main textbox -->
+    <div class="container">
+      <h1>Welcome to Princess Aurora's World</h1>
+      <a href="intro.html" id="start-link">
+        <button class="play-button">Start Your Quest</button>
+      </a>
+    </div>
+  </div>
+
+  <audio id="click-sound" src="magical twinkle.mp3" preload="auto"></audio>
+
+  <script>
+    const button = document.querySelector(".play-button");
+    const sound = document.getElementById("click-sound");
+    const link = document.getElementById("start-link");
+
+    button.addEventListener("click", function(event) {
+      event.preventDefault(); 
+      sound.play();
+
+      // Sparkle burst effect
+      for (let i = 0; i < 10; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'particle';
+        sparkle.style.left = (event.pageX + Math.random() * 100 - 50) + 'px';
+        sparkle.style.top = (event.pageY + Math.random() * 100 - 50) + 'px';
+        sparkle.style.width = sparkle.style.height = (Math.random() * 6 + 4) + 'px';
+        sparkle.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1000);
+      }
+
+      setTimeout(() => {
+        window.location.href = link.getAttribute("href");
+      }, 1200);
+    });
+
+    // Floating particles
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      const size = Math.random() * 6 + 4;
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      particle.style.left = Math.random() * window.innerWidth + 'px';
+      particle.style.top = window.innerHeight + 10 + 'px';
+      particle.style.animationDuration = (Math.random() * 4 + 5) + 's';
+      document.body.appendChild(particle);
+      particle.addEventListener('animationend', () => {
+        particle.remove();
+      });
+    }
+
+    setInterval(createParticle, 300);
+  </script>
+</body>
+</html>

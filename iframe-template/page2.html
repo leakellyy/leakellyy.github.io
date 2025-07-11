@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Beware the Magic Mirror</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("castle.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4b004b;
+      overflow: hidden;
+      position: relative;
+      cursor: default;
+    }
+
+    .container {
+      background: rgba(255, 240, 250, 0.9);
+      border: 3px solid #ffc0cb;
+      border-radius: 20px;
+      padding: 25px 35px;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+      position: relative;
+      z-index: 10;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+ h1 {
+  text-align: center;
+  font-size: 2.5em; /* slightly bigger like intro page */
+  color: #8B008B;
+  font-family: 'Great Vibes', cursive;
+  margin-bottom: 15px;
+  text-shadow: 1px 1px 4px #fff;
+}
+
+    .narration {
+      font-size: 1em;
+      margin-bottom: 15px;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .message-label {
+      font-weight: bold;
+      font-style: italic;
+      color: #8B0000;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .chat-bubble {
+      background: #fffaf0;
+      border-left: 5px solid pink;
+      padding: 12px 15px;
+      border-radius: 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: left;
+      cursor: default;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .chat-bubble:hover {
+      box-shadow: 0 0 15px 4px pink;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .choice-button {
+      flex: 1;
+      padding: 12px 0;
+      font-size: 1.05em;
+      background: gold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      color: #4b004b;
+      font-weight: 600;
+      transition: background 0.3s, transform 0.2s;
+      user-select: none;
+    }
+
+    .choice-button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+
+    .choice-button:active {
+      transform: scale(0.95);
+      transition: transform 0.1s;
+    }
+
+    .info-tip {
+      font-size: 0.9em;
+      font-style: italic;
+      color: #8B008B;
+      user-select: none;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: sparkleFade 0.5s forwards;
+      filter: drop-shadow(0 0 3px gold);
+      z-index: 9999;
+    }
+
+    @keyframes sparkleFade {
+      to {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background music -->
+  <audio id="bgMusic" src="magic-mirror.mp3" loop></audio>
+
+  <div class="container">
+    <h1>Beware the Magic Mirror</h1>
+    
+    <p class="narration">
+      The magical mirror is amazing, but be careful—online friends might not always be who they seem.
+    </p>
+
+    <p class="narration">
+      Some use AI to fake faces and voices to trick you.
+    </p>
+
+    <p class="narration">
+      Never share personal info or photos without thinking twice.
+    </p>
+
+    <div class="message-label">Message from Prince:</div>
+    <div class="chat-bubble">
+      Would you like to video call? I want to show you something special!
+    </div>
+
+    <div class="button-group">
+      <a href="page4.html"><button class="choice-button">Proceed Carefully</button></a>
+      <a href="page3.html"><button class="choice-button">Go Back</button></a>
+    </div>
+
+    <div class="info-tip">Tip: Always verify who you’re talking to before sharing personal info.</div>
+  </div>
+
+  <script>
+    const bgMusic = document.getElementById('bgMusic');
+    window.addEventListener('load', () => {
+      bgMusic.volume = 0.3;
+      const playPromise = bgMusic.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    });
+
+    document.addEventListener('mousemove', e => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.pageX + 'px';
+      sparkle.style.top = e.pageY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 500);
+    });
+  </script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Magic Mirror</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Body & Background ===== */
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("castle.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      color: #4b004b;
+      cursor: url('magic-wand-cursor.png'), auto; /* Custom magic wand cursor */
+    }
+
+    /* Moving pastel gradient overlay on body background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(270deg, #ffb6c1, #ffc0cb, #fff0f5);
+      background-size: 600% 600%;
+      animation: backgroundShift 30s ease infinite;
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes backgroundShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===== Container ===== */
+    .container {
+      background: rgba(255, 240, 250, 0.88);
+      border: 3px solid #ffc0cb;
+      border-radius: 20px;
+      padding: 30px 40px;
+      max-width: 500px;
+      width: 90%;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 1.5s ease forwards, breathe 6s ease-in-out infinite;
+      visibility: hidden;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Breathing animation for container */
+    @keyframes breathe {
+      0%, 100% { transform: scale(1) translateY(0); }
+      50% { transform: scale(1.02) translateY(-5px); }
+    }
+
+    /* Fade in */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== Headings & Text ===== */
+    h1 {
+
+  text-align: center;
+  font-size: 2.5em; /* slightly bigger like intro page */
+  color: #8B008B;
+  font-family: 'Great Vibes', cursive;
+  margin-bottom: 15px;
+  text-shadow: 1px 1px 4px #fff;
+}
+    
+
+    .narration {
+      font-size: 1em;
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    .message-label {
+      font-weight: bold;
+      color: #8B0000;
+      margin-top: 15px;
+      font-style: italic;
+    }
+
+    .chat-bubble {
+      background: #fffaf0;
+      border-left: 4px solid pink;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 25px;
+    }
+
+    /* ===== Buttons ===== */
+    .choice-button {
+      margin: 5px 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background: gold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+    }
+
+    .choice-button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+
+    /* ===== Cursor animation ===== */
+    .typing-cursor {
+      display: inline-block;
+      width: 1ch;
+      animation: blink 0.4s step-end infinite;
+      font-weight: bold;
+      color: #8B0000;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* ===== Sparkles ===== */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: sparkleFade 0.5s forwards;
+      filter: drop-shadow(0 0 3px gold);
+      z-index: 9999;
+    }
+
+    @keyframes sparkleFade {
+      to {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+
+    /* ===== Mirror images ===== */
+    .mirror-deco {
+      position: fixed;
+      width: 140px;
+      opacity: 0.9;
+      animation: flicker 2.5s infinite alternate;
+      z-index: 1;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 0.85; transform: scale(1); }
+    }
+
+    /* ===== Soft drifting light ray ===== */
+    .light-ray {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(ellipse at center, rgba(255, 182, 193, 0.4), transparent 70%);
+      border-radius: 50%;
+      filter: blur(30px);
+      pointer-events: none;
+      opacity: 0.5;
+      transform: translateX(-50%);
+      animation: driftRay 20s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    @keyframes driftRay {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+      50% { transform: translateX(-45%) translateY(15px); opacity: 0.6; }
+    }
+
+    /* ===== Start overlay ===== */
+    #startOverlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      font-family: 'Playfair Display', serif;
+      color: #8B008B;
+      z-index: 10000;
+      cursor: pointer;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Soft drifting light ray behind container -->
+  <div class="light-ray"></div>
+
+  <!-- Decorative Mirrors -->
+  <img src="mirror.png" class="mirror-deco" style="top: 30px; right: 30px;">
+  <img src="mirror.png" class="mirror-deco" style="bottom: 30px; left: 25px;">
+
+  <!-- Audio -->
+  <audio id="bgMusic" src="magic-mirror.mp3" loop></audio>
+
+  <!-- Start Screen -->
+  <div id="startOverlay">Click to begin your magical message</div>
+
+  <div class="container">
+    <h1>The Magic Mirror Glows...</h1>
+    <p class="narration"> A new message appears out of nowhere...</p>
+
+    <div class="message-label">Message from “Prince”:</div>
+    <div class="chat-bubble" id="princeMessage">
+      <span id="typedText"></span><span class="typing-cursor" id="cursor">|</span>
+    </div>
+
+    <div style="text-align: center;">
+      <a href="page2.html"><button class="choice-button">Accept</button></a>
+      <a href="page3.html"><button class="choice-button">Reject</button></a>
+    </div>
+  </div>
+
+  <script>
+    const overlay = document.getElementById('startOverlay');
+    const container = document.querySelector('.container');
+    const textContainer = document.getElementById('typedText');
+    const cursor = document.getElementById('cursor');
+    const bgMusic = document.getElementById('bgMusic');
+
+    const message = 'You are the fairest in all the lands. May I add you as my royal companion?';
+    let i = 0;
+
+    function typeNextChar() {
+      if (i < message.length) {
+        textContainer.innerText += message.charAt(i);
+        i++;
+        setTimeout(typeNextChar, 50);
+      } else {
+        cursor.style.display = 'none';
+      }
+    }
+
+    overlay.addEventListener('click', () => {
+      overlay.style.display = 'none';
+      container.style.visibility = 'visible';
+      textContainer.innerText = '';
+      i = 0;
+      typeNextChar();
+      bgMusic.volume = 0.4;
+      bgMusic.play().catch(() => {});
+    });
+
+    // Sparkles on mouse move
+    document.addEventListener('mousemove', e => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.pageX + 'px';
+      sparkle.style.top = e.pageY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 500);
+    });
+  </script>
+</body>
+</html>

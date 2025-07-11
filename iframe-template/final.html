@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Grand Finale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("castle.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      font-family: 'Playfair Display', serif;
+      color: #4b004b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .container {
+      background: rgba(255, 245, 255, 0.9);
+      border: 3px solid #ffc0cb;
+      border-radius: 25px;
+      padding: 25px 35px;
+      width: 720px;        /* smaller width */
+      height: 360px;       /* smaller height */
+      box-sizing: border-box;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 1.8s ease forwards;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5em;    /* slightly smaller font */
+      color: #8B008B;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 4px #d48fd7;
+    }
+    p {
+      font-size: 1.1em;
+      line-height: 1.4;
+      margin-bottom: 14px;
+      color: #5a005a;
+      flex-shrink: 0;
+    }
+    .choice-button {
+      background: gold;
+      color: #4b004b;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1.1em;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.7);
+      transition: background 0.3s ease, transform 0.3s ease;
+      font-family: 'Playfair Display', serif;
+      user-select: none;
+      align-self: center;
+      margin-top: auto;
+      width: fit-content;
+      text-decoration: none;
+    }
+    .choice-button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.08);
+    }
+    .choice-button:active {
+      transform: scale(0.95);
+      transition: transform 0.1s;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      top: -100px;
+      left: -100px;
+      width: 120%;
+      height: 120%;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.3) 3px, transparent 4px),
+        radial-gradient(circle at 70% 20%, rgba(255, 215, 0, 0.25) 2px, transparent 3px),
+        radial-gradient(circle at 50% 80%, rgba(255, 215, 0, 0.35) 4px, transparent 5px),
+        radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.2) 3px, transparent 4px);
+      animation: sparkleMove 10s linear infinite;
+      z-index: 5;
+    }
+    @keyframes sparkleMove {
+      0% {
+        background-position: 20% 30%, 70% 20%, 50% 80%, 80% 70%;
+      }
+      100% {
+        background-position: 25% 35%, 75% 25%, 55% 85%, 85% 75%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Thank You for Joining Aurora's Journey!</h1>
+    <p>You've bravely navigated the magic mirror’s mysteries and learned how to stay safe in the enchanted digital realm.</p>
+    <p>Remember, always be cautious and trust your instincts — not every magical face is what it seems.</p>
+    <p>Now, go forth with wisdom and share your newfound knowledge with friends and family!</p>
+    <a href="home.html" class="choice-button">Restart the Adventure</a>
+  </div>
+</body>
+</html>
+
+

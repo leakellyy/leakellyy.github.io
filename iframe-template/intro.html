@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Princess Aurora's Story Begins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("castle.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      color: #fff;
+    }
+
+    .intro-container {
+      background: rgba(255, 240, 250, 0.88);
+      border: 3px solid #ffc0cb;
+      border-radius: 20px;
+      padding: 30px 50px;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 2s ease forwards;
+      position: relative;
+      z-index: 5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #8B008B;
+      font-family: 'Great Vibes', cursive;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 4px #fff;
+    }
+
+    p {
+      font-size: 1.1em;
+      color: #4b004b;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .continue-button {
+      padding: 12px 25px;
+      font-size: 1.1em;
+      background: gold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      color: #4b004b;
+    }
+
+    .continue-button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+
+    .character {
+      position: absolute;
+      top: 20px;
+      left: -20px;
+      max-height: 350px;
+      animation: floatUpDown 4s ease-in-out infinite;
+      z-index: 10;
+      pointer-events: none;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+    }
+
+    @keyframes floatUpDown {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-15px) scale(1.05); }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: sparkleFade 0.5s forwards;
+      filter: drop-shadow(0 0 3px gold);
+      z-index: 9999;
+    }
+
+    .sparkle-static {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      opacity: 0.8;
+      filter: drop-shadow(0 0 3px gold);
+      animation: sparkleFade 1.5s infinite alternate;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @keyframes sparkleFade {
+      0% { opacity: 0.3; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.6); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mirror image -->
+  <img src="mirror.png" alt="Magical Mirror" class="character">
+
+  <!-- Intro content -->
+  <div class="intro-container">
+    <h1>Once Upon a Scroll...</h1>
+    <p>In a kingdom far away, there lived a bright and curious princess named Aurora.</p>
+    <p>Today, she received a magical gift — a mirror that lets her talk to anyone in the world.</p>
+    <p>But not everything online is as enchanting as it seems...</p>
+    <a href="page1.html"><button class="continue-button">Continue</button></a>
+  </div>
+
+  <!-- Sparkles -->
+  <script>
+    // Mouse-move sparkle trail
+    document.addEventListener('mousemove', e => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.pageX + 'px';
+      sparkle.style.top = e.pageY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 500);
+    });
+
+    // Static sparkles near the mirror
+    function createStaticSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle-static';
+
+      const mirror = document.querySelector('.character');
+      if (!mirror) return;
+
+      const rect = mirror.getBoundingClientRect();
+
+      const radius = 80; // radius around mirror center
+      const angle = Math.random() * 2 * Math.PI;
+      const r = Math.random() * radius;
+      const x = rect.left + rect.width / 2 + r * Math.cos(angle);
+      const y = rect.top + rect.height / 2 + r * Math.sin(angle);
+
+      sparkle.style.left = `${x}px`;
+      sparkle.style.top = `${y}px`;
+
+      document.body.appendChild(sparkle);
+
+      setTimeout(() => sparkle.remove(), 4000);
+    }
+
+    setInterval(createStaticSparkle, 700);
+  </script>
+
+</body>
+</html>

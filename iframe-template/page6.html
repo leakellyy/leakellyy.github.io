@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tricked by Illusion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 960px;
+      height: 540px;
+      overflow: hidden;
+      font-family: 'Playfair Display', serif;
+      background-image: url("castle.jpg");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: #4b004b;
+    }
+
+    .container {
+      background: rgba(255, 220, 220, 0.92);
+      border: 3px solid #ff6666;
+      border-radius: 20px;
+      padding: 30px 40px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 700px;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      color: crimson;
+      font-size: 2.4em;
+      margin-bottom: 20px;
+      font-family: 'Great Vibes', cursive;
+    }
+
+    p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .choice-button {
+      background: gold;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1.1em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      color: #4b004b;
+    }
+
+    .choice-button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: sparkleFade 0.5s forwards;
+      filter: drop-shadow(0 0 3px gold);
+      z-index: 9999;
+    }
+
+    @keyframes sparkleFade {
+      to {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Oh no! It was a trap!</h1>
+    <p>Aurora trusted the video call, but it was a deepfake — someone pretending to be the prince.</p>
+    <p>Be careful: not everything online is what it seems. Always check for signs that something isn’t real.</p>
+    <a href="page1.html"><button class="choice-button">Try Again</button></a>
+  </div>
+
+  <script>
+    // Sparkle cursor effect
+    document.addEventListener('mousemove', e => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.pageX + 'px';
+      sparkle.style.top = e.pageY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 500);
+    });
+  </script>
+</body>
+</html>
+

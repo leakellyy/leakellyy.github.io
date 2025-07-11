@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Journey Continues...</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 960px; height: 540px;
+      background: url('castle.jpg') center/cover no-repeat;
+      font-family: 'Playfair Display', serif;
+      display: flex; align-items: center; justify-content: center;
+      color: #4b004b;
+      overflow: hidden;
+      position: relative;
+    }
+    .container {
+      background: rgba(255, 240, 250, 0.9);
+      border: 3px solid #ffc0cb;
+      border-radius: 20px;
+      padding: 30px 40px;
+      max-width: 700px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      backdrop-filter: blur(8px);
+      animation: fadeSlideIn 1.2s ease forwards;
+    }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.8em;
+      margin-bottom: 20px;
+      color: #8B008B;
+    }
+    p {
+      font-size: 1.2em;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+    .start-quiz-btn {
+      background: gold;
+      border: none;
+      padding: 14px 35px;
+      font-size: 1.3em;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transition: 0.3s;
+      color: #4b004b;
+      font-family: 'Playfair Display', serif;
+    }
+    .start-quiz-btn:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>The Journey Continues...</h1>
+    <p>Aurora has learned valuable lessons about the magical online kingdom.</p>
+    <p>Now it’s your turn to show how wise and brave you are! Ready to protect yourself?</p>
+    <button class="start-quiz-btn" onclick="location.href='page9.html'">Begin the Quiz!</button>
+  </div>
+</body>
+</html>
