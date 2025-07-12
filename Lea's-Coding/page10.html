@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aurora's Next Step</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 960px;
+      height: 540px;
+      background: url('castle.jpg') center/cover no-repeat;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      color: #4b004b;
+      cursor: default;
+    }
+
+    .container {
+      background: rgba(255, 240, 250, 0.95);
+      border: 4px solid #ffc0cb;
+      border-radius: 25px;
+      box-shadow: 0 8px 30px rgba(255, 182, 193, 0.6);
+      padding: 30px 40px;
+      text-align: center;
+      width: 620px;
+      max-width: 90vw;
+      animation: fadeInContainer 1.2s ease forwards;
+      opacity: 0;
+      position: relative;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.8em;
+      margin-bottom: 15px;
+      text-shadow: 0 0 6px #f9c6de;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    p {
+      font-size: 1.15em;
+      line-height: 1.5;
+      margin: 15px 0;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    p:nth-of-type(1) { animation-delay: 0.7s; }
+    p:nth-of-type(2) { animation-delay: 1.1s; }
+
+    .btn {
+      font-family: Georgia, serif;  /* Changed font here */
+      background: gold;
+      color: #4b004b;
+      border: none;
+      border-radius: 15px;
+      padding: 14px 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.7);
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 25px;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards, pulse 2.5s ease-in-out infinite;
+      animation-delay: 1.5s;
+      outline-offset: 4px;
+      outline-color: transparent;
+    }
+
+    .btn:hover, .btn:focus {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.1);
+      box-shadow: 0 8px 30px rgba(255, 165, 0, 0.9);
+      outline-color: orange;
+      outline-style: solid;
+    }
+
+    @keyframes fadeInContainer {
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 5px 20px rgba(255, 215, 0, 0.7);
+      }
+      50% {
+        box-shadow: 0 8px 30px rgba(255, 215, 0, 1);
+        transform: scale(1.05);
+      }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0.8;
+      pointer-events: none;
+      animation: sparkle 0.8s linear forwards;
+      filter: drop-shadow(0 0 4px #fff);
+    }
+
+    @keyframes sparkle {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; top: -20px; }
+    }
+  </style>
+</head>
+<body>
+  <audio id="magicMirrorAudio" src="magic-mirror.mp3" autoplay></audio>
+
+  <div class="container" role="main" aria-label="Aurora's Next Step message">
+    <h1>Well Done, Brave Soul!</h1>
+    <p>
+      Thanks to your wisdom, Princess Aurora now knows how to spot online dangers.<br>
+      But knowledge alone isn't enough—she must be equipped with the right tools to stay safe in her digital journey.
+    </p>
+    <p>
+      Step into Aurora’s magical closet and help her choose the best safety gear<br>
+      before she continues her adventure online.
+    </p>
+    <button class="btn" onclick="goToNext()" aria-label="Proceed to help Aurora choose safety gear">Let’s Help Her</button>
+  </div>
+
+  <script>
+    function goToNext() {
+      window.location.href = "page11.html";
+    }
+
+    document.addEventListener("mousemove", e => {
+      const sparkle = document.createElement("div");
+      sparkle.className = "sparkle";
+      sparkle.style.left = e.pageX + "px";
+      sparkle.style.top = e.pageY + "px";
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 800);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('magicMirrorAudio');
+      audio.play().catch(() => {
+        document.body.addEventListener('click', () => {
+          audio.play();
+        }, { once: true });
+      });
+    });
+  </script>
+</body>
+</html>
+

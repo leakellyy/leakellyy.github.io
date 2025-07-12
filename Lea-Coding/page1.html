@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Friend Request from the Prince</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Body & Background ===== */
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("castle.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      color: #4b004b;
+      cursor: url('magic-wand-cursor.png'), auto; /* Custom magic wand cursor */
+    }
+
+    /* Moving pastel gradient overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(270deg, #ffb6c1, #ffc0cb, #fff0f5);
+      background-size: 600% 600%;
+      animation: backgroundShift 30s ease infinite;
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes backgroundShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===== Container ===== */
+    .container {
+      background: rgba(255, 240, 250, 0.95);
+      border: 3px solid #ffc0cb;
+      border-radius: 20px;
+      padding: 30px 40px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 10;
+      text-align: center;
+
+      /* Animation on load */
+      opacity: 0;
+      transform: scale(0.8);
+      animation: fadeScaleIn 0.8s ease forwards;
+    }
+
+    @keyframes fadeScaleIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Friend Request Box */
+    .friend-request {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      padding: 25px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    /* Prince Avatar (circle) */
+    .prince-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: url('prince2.jpg') center/cover no-repeat;
+      border: 3px solid pink;
+      box-shadow: 0 0 12px 3px pink;
+      flex-shrink: 0;
+    }
+
+    /* Friend Request Text */
+    .request-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15em;
+      color: #4b004b;
+      font-weight: 600;
+      margin: 0;
+      user-select: none;
+    }
+
+    .request-subtext {
+      font-size: 0.9em;
+      color: #a8325f;
+      font-style: italic;
+      user-select: none;
+    }
+
+    /* Button container */
+    .button-group {
+      display: flex;
+      gap: 18px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Accept Button */
+    .btn-accept {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 38px;
+      font-size: 1.1em;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(76, 175, 80, 0.5);
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      flex: 1;
+      max-width: 160px;
+    }
+    .btn-accept:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px 5px #66bb6a;
+    }
+
+    /* Reject Button */
+    .btn-reject {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 12px 38px;
+      font-size: 1.1em;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(244, 67, 54, 0.5);
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      flex: 1;
+      max-width: 160px;
+    }
+    .btn-reject:hover {
+      background-color: #d32f2f;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px 5px #ef5350;
+    }
+
+    /* Info icon */
+    .info-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: gold;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.4em;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+      z-index: 1000;
+      animation: pulseGlow 1.8s infinite, bounceIcon 3s ease-in-out infinite;
+      user-select: none;
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
+      50% { box-shadow: 0 0 18px rgba(255, 215, 0, 0.95); }
+      100% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
+    }
+    @keyframes bounceIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Info banner */
+    .info-banner {
+      position: absolute;
+      top: 65px;
+      right: 20px;
+      background: #fff0f8;
+      border: 2px solid pink;
+      border-radius: 14px;
+      padding: 15px 20px;
+      font-size: 0.9em;
+      width: 260px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      color: #8B008B;
+      font-style: italic;
+      display: none;
+      z-index: 999;
+      user-select: none;
+      line-height: 1.4;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 460px) {
+      .container {
+        max-width: 95%;
+        padding: 25px 25px;
+      }
+      .button-group {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .btn-accept, .btn-reject {
+        max-width: 100%;
+        flex: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="friendRequestAudio" src="friend request.mp3" preload="auto"></audio>
+
+  <div class="container" role="main" aria-label="Prince friend request">
+    <div class="friend-request" role="dialog" aria-modal="true" aria-labelledby="friendRequestTitle" aria-describedby="friendRequestDesc">
+      <div class="prince-avatar" aria-hidden="true" title="Prince avatar"></div>
+      <p class="request-text" id="friendRequestTitle">Friend Request</p>
+      <p class="request-subtext" id="friendRequestDesc">You received a friend request from <strong>Prince</strong>.</p>
+      <div class="button-group">
+        <button class="btn-accept" onclick="onAccept()" aria-label="Accept friend request from Prince">Accept</button>
+        <button class="btn-reject" onclick="onReject()" aria-label="Reject friend request from Prince">Reject</button>
+      </div>
+    </div>
+
+    <!-- Info icon -->
+    <div class="info-icon" id="infoToggle" title="Click for safety tips" role="button" aria-pressed="false" tabindex="0" aria-label="Toggle safety information">ℹ️</div>
+    <div class="info-banner" id="infoBanner" role="region" aria-live="polite">
+      <p>Be cautious of friend requests or video calls from strangers online. They may use AI to fake faces and voices to trick you.</p>
+    </div>
+  </div>
+
+<script>
+  // Play audio on load with muted fallback for autoplay policies
+  const friendAudio = document.getElementById('friendRequestAudio');
+  friendAudio.volume = 0.3;
+
+  // Attempt to play audio on page load
+  window.addEventListener('load', () => {
+    friendAudio.play().catch(() => {
+      // If autoplay blocked, wait for user interaction then play
+      const playAudioOnInteraction = () => {
+        friendAudio.play();
+        window.removeEventListener('click', playAudioOnInteraction);
+        window.removeEventListener('keydown', playAudioOnInteraction);
+      };
+      window.addEventListener('click', playAudioOnInteraction);
+      window.addEventListener('keydown', playAudioOnInteraction);
+    });
+  });
+
+  // Info toggle
+  const infoToggle = document.getElementById("infoToggle");
+  const infoBanner = document.getElementById("infoBanner");
+
+  infoToggle.addEventListener("click", () => {
+    const isVisible = infoBanner.style.display === "block";
+    infoBanner.style.display = isVisible ? "none" : "block";
+    infoToggle.setAttribute("aria-pressed", !isVisible);
+  });
+
+  infoToggle.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" || e.key === " "){
+      e.preventDefault();
+      infoToggle.click();
+    }
+  });
+
+  // Button navigation
+  function onAccept() {
+    window.location.href = "page2.html";
+  }
+
+  function onReject() {
+    window.location.href = "page3.html";
+  }
+</script>
+
+</body>
+</html>
+
+
+
+
+

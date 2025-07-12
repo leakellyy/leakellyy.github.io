@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wise Choice!</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("castle.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4b004b;
+      overflow: hidden;
+      position: relative;
+      cursor: default;
+    }
+
+    /* Background overlay for readability */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(139, 0, 139, 0.3);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      background: rgba(255, 240, 250, 0.9);
+      border: 3px solid #ffc0cb;
+      border-radius: 20px;
+      padding: 30px 50px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(8px);
+      position: relative;
+      z-index: 10;
+      animation: fadeSlideIn 1.5s ease forwards;
+      user-select: none;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.2em;
+      margin-bottom: 25px;
+      color: #8B008B;
+      text-shadow: 1px 1px 4px #fff;
+    }
+
+    p {
+      font-size: 1.15em;
+      margin-bottom: 20px;
+      line-height: 1.5;
+      color: #4b004b;
+      text-shadow: 0 0 3px rgba(255, 240, 250, 0.7);
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+    }
+
+    .choice-button {
+      padding: 14px 30px;
+      font-size: 1.2em;
+      background: gold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      color: #4b004b;
+      font-weight: 600;
+      transition: background 0.3s, transform 0.2s;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .choice-button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+
+    .choice-button:active {
+      transform: scale(0.95);
+      transition: transform 0.1s;
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: sparkleFade 0.5s forwards;
+      filter: drop-shadow(0 0 3px gold);
+      z-index: 9999;
+    }
+
+    @keyframes sparkleFade {
+      to {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Audio that plays once on page load -->
+  <audio id="correctSound" src="correct.mp3" autoplay></audio>
+
+  <div class="container">
+    <h1>Wise Choice!</h1>
+    <p>Rejecting requests from strangers online is a smart way to protect yourself.</p>
+    <p>Remember, not everyone is who they seem.</p>
+    <p>Stay alert and trust your instincts in the digital kingdom.</p>
+
+    <div class="button-group">
+      <a href="page8.html"><button class="choice-button">Continue with the Adventure!</button></a>
+    </div>
+  </div>
+
+  <script>
+    // Sparkle trail on mouse move
+    document.addEventListener('mousemove', e => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.pageX + 'px';
+      sparkle.style.top = e.pageY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 500);
+    });
+
+    // Ensure the sound plays on load (some browsers block autoplay without interaction)
+    window.addEventListener('DOMContentLoaded', () => {
+      const sound = document.getElementById('correctSound');
+      sound.play().catch(() => {
+        // For browsers that block autoplay, allow click to play
+        document.body.addEventListener('click', () => {
+          sound.play();
+        }, { once: true });
+      });
+    });
+  </script>
+</body>
+</html>

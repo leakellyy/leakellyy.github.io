@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Glitched Call</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet" />
+  <style>
+    /* Body & container */
+    body {
+      margin: 0;
+      padding: 0;
+      background: url("castle.jpg") center/cover no-repeat;
+      font-family: 'Playfair Display', serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      color: #4b004b;
+    }
+
+    .chat-window {
+      width: 420px;
+      max-width: 90%;
+      height: 520px;
+      background: rgba(255, 240, 250, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      color: #4b004b;
+    }
+
+    /* Header */
+    .chat-header {
+      background: #ffdaf0;
+      padding: 15px;
+      font-size: 1.2em;
+      color: #8B008B;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 2px solid #ffc0cb;
+      position: relative;
+      user-select: none;
+    }
+
+    /* Video feed container */
+    .video-feed {
+      position: relative;
+      flex-grow: 1;
+      background: black;
+      border-radius: 0 0 0 0;
+      overflow: hidden;
+      filter: brightness(0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Prince's video */
+    .prince-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Aurora's small inset */
+    .aurora-inset {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      width: 100px;
+      height: 130px;
+      border: 3px solid gold;
+      border-radius: 15px;
+      background: url('aurora-placeholder.jpg') center/cover no-repeat;
+      box-shadow: 0 0 12px gold;
+      user-select: none;
+    }
+
+    /* Subtitle below video */
+    .subtitle {
+      background: #fffaf0;
+      font-size: 1em;
+      padding: 12px 15px;
+      border-top: 2px solid #ffc0cb;
+      color: #4b004b;
+      min-height: 40px;
+      user-select: none;
+      white-space: pre-wrap;
+    }
+
+    /* Alert caption */
+    .alert-caption {
+      background: #fff3f6;
+      color: #b22222;
+      font-weight: 600;
+      font-size: 0.9em;
+      padding: 8px 15px;
+      text-align: center;
+      border-top: 1px solid #f08080;
+      user-select: none;
+    }
+
+    /* Buttons container */
+    .chat-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      border-top: 2px solid #ffc0cb;
+      background: #fff0f5;
+    }
+
+    /* Buttons style */
+    .chat-buttons a button {
+      padding: 10px;
+      font-size: 0.95em;
+      font-family: 'Georgia', serif;
+      background: gold;
+      border: none;
+      border-radius: 10px;
+      color: #4b004b;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .chat-buttons a button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+
+    /* Info Icon + Banner inside chat window */
+    .info-icon {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: gold;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+      z-index: 1000;
+      animation: pulseGlow 1.8s infinite, bounceIcon 3s ease-in-out infinite;
+      user-select: none;
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
+      50% { box-shadow: 0 0 18px rgba(255, 215, 0, 0.95); }
+      100% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
+    }
+
+    @keyframes bounceIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .info-banner {
+      position: absolute;
+      top: 55px;
+      right: 15px;
+      background: #fff0f8;
+      border: 2px solid pink;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 0.9em;
+      width: 240px;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      z-index: 999;
+      color: #8B008B;
+      font-style: italic;
+      user-select: none;
+      line-height: 1.4;
+    }
+
+    /* Sparkle Trail */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: sparkleFade 0.5s forwards;
+      filter: drop-shadow(0 0 3px gold);
+      z-index: 9999;
+    }
+
+    @keyframes sparkleFade {
+      to {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bgMusic" src="magic-mirror.mp3" loop></audio>
+
+  <!-- Sparkle Trail -->
+  <script>
+    document.addEventListener('mousemove', e => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.pageX + 'px';
+      sparkle.style.top = e.pageY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 500);
+    });
+  </script>
+
+  <div class="chat-window" role="main" aria-label="Video call with Prince and chat options">
+    <div class="chat-header">
+      Prince ✨
+      <div class="info-icon" id="infoToggle" title="Click for safety tip" role="button" tabindex="0" aria-pressed="false" aria-label="Toggle safety information">ℹ️</div>
+    </div>
+
+    <div class="video-feed" aria-label="Prince's video feed">
+      <img src="prince-placeholder.jpg" alt="Prince's video feed" class="prince-video" />
+      <div class="aurora-inset" aria-label="Your camera feed"></div>
+    </div>
+
+    <div class="subtitle" aria-live="polite" id="subtitleArea" aria-atomic="true"></div>
+
+    <div class="alert-caption" aria-live="assertive" role="alert">
+      ⚠️ Notice: His eyes are not blinking. This could be a sign of AI deepfake.
+    </div>
+
+    <div class="chat-buttons" role="group" aria-label="Call options">
+      <a href="page5.html"><button>Ask him to hold up a specific object</button></a>
+      <a href="page6.html"><button>Ignore it, maybe it's lag</button></a>
+      <a href="page7.html"><button>Send the clip to her fairy godmother</button></a>
+    </div>
+
+    <div class="info-banner" id="infoBanner" role="region" aria-live="polite">
+      <p>Watch out! AI-generated video calls may appear real. Look for subtle signs—like no blinking or robotic speech.</p>
+    </div>
+  </div>
+
+  <script>
+    // Background music
+    window.addEventListener('load', () => {
+      const bgMusic = document.getElementById('bgMusic');
+      bgMusic.volume = 0.3;
+      bgMusic.play().catch(() => {});
+    });
+
+    // Typewriter effect for subtitle
+    const subtitleText = "“Don’t worry, my princess. Just look into my eyes...”";
+    const subtitleArea = document.getElementById('subtitleArea');
+    let idx = 0;
+    function typeSubtitle() {
+      if (idx < subtitleText.length) {
+        subtitleArea.textContent += subtitleText.charAt(idx);
+        idx++;
+        setTimeout(typeSubtitle, 50);
+      }
+    }
+    typeSubtitle();
+
+    // Info toggle with keyboard accessibility
+    const infoToggle = document.getElementById("infoToggle");
+    const infoBanner = document.getElementById("infoBanner");
+    infoToggle.addEventListener("click", () => {
+      const isVisible = infoBanner.style.display === "block";
+      infoBanner.style.display = isVisible ? "none" : "block";
+      infoToggle.setAttribute("aria-pressed", !isVisible);
+    });
+    infoToggle.addEventListener("keydown", (e) => {
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        infoToggle.click();
+      }
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Princess Aurora's Wisdom Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0; padding: 0;
+      background: url('quizbg.jpg') center/cover no-repeat;
+      font-family: 'Playfair Display', serif;
+      height: 100vh; display: flex;
+      align-items: center; justify-content: center;
+      color: #4b004b; overflow: hidden;
+      cursor: none;
+      user-select: none;
+      position: relative;
+    }
+    .quiz-container {
+      width: 960px; height: 540px;
+      background: rgba(255,240,250,0.95);
+      border: 4px solid #ffc0cb; border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      padding: 20px 40px; text-align: center;
+      backdrop-filter: blur(8px); overflow-y: auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.6em; margin-bottom: 5px;
+      text-shadow: 0 0 6px #f9c6de;
+      user-select: none;
+    }
+    #progress-container {
+      width: 100%;
+      height: 14px;
+      background: #ffd7e6;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      box-shadow: inset 0 0 8px #ffa1ca;
+      user-select: none;
+    }
+    #progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #ff69b4, #ff1493);
+      width: 0%;
+      border-radius: 10px;
+      transition: width 0.3s ease;
+      user-select: none;
+    }
+    .question {
+      font-size: 1.2em; margin: 20px 0 10px; font-weight: 600;
+      user-select: none;
+    }
+    .options button, .choice-button {
+      display: block; width: 100%; margin: 8px 0;
+      padding: 10px; font-size: 1em; border-radius: 12px;
+      border: none; background: #ffb6c1; color: #660033;
+      cursor: pointer; transition: .3s; font-weight: bold;
+      user-select: none;
+    }
+    .options button:hover:not(:disabled), .choice-button:hover {
+      background: linear-gradient(to right,#ff69b4,#ff1493);
+      color:#fff; transform: scale(1.05);
+    }
+    .options button:disabled {
+      background:#f5c4d1; color:#a84f72; cursor: default;
+    }
+    .match-container {
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 15px;
+      margin: 20px 0;
+    }
+    .match-container select {
+      padding: 8px 12px; font-size: 1em;
+      border-radius: 10px;
+      border: 2px solid #ffc0cb;
+      background: linear-gradient(180deg, #fffaf5, #ffeef0);
+      width: 300px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+      text-align-last: center;
+      user-select: none;
+    }
+    #feedback {
+      margin-top: 15px; font-size: 1.1em; font-weight: bold;
+      user-select: none;
+      min-height: 48px;
+    }
+    #result {
+      margin-top: 20px; font-size: 1.3em; font-weight: bold;
+      user-select: none;
+      position: relative;
+      z-index: 10;
+    }
+    .center-btn { margin-top: 20px; }
+
+    #sparkle-cursor {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 40px; height: 40px;
+      background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center center / contain;
+      mix-blend-mode: screen;
+      animation: sparkle 1.2s infinite ease-in-out;
+      z-index: 1000;
+      transform: translate(-50%, -50%);
+      user-select: none;
+    }
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(10px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-out {
+      animation: fadeOut 0.4s forwards;
+    }
+    .fade-in {
+      animation: fadeIn 0.4s forwards;
+    }
+
+    /* Info button moved down */
+    #infoBtn {
+      position: absolute;
+      top: 40px;
+      right: 15px;
+      background: gold;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.3em;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+      user-select: none;
+      z-index: 1001;
+      transition: transform 0.3s ease;
+    }
+    #infoBtn:hover, #infoBtn:focus {
+      transform: scale(1.15);
+      box-shadow: 0 0 18px rgba(255, 215, 0, 1);
+      outline: none;
+    }
+
+    /* Tooltip info panel for hover/focus */
+    #infoPanel {
+      position: absolute;
+      top: 80px;
+      right: 15px;
+      width: 320px;
+      background: #fff8fc;
+      border: 2px solid #ff69b4;
+      border-radius: 15px;
+      padding: 15px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      color: #8b008b;
+      font-style: italic;
+      font-size: 0.95em;
+      line-height: 1.4;
+      user-select: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
+    /* Show on hover or focus */
+    #infoBtn:hover + #infoPanel,
+    #infoBtn:focus + #infoPanel {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Confetti canvas styles */
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 2000;
+    }
+  </style>
+</head>
+<body>
+  <audio id="fairyAudio" src="fairytale.mp3" autoplay></audio>
+
+  <div class="quiz-container" role="main" aria-label="Princess Aurora's Wisdom Quiz">
+    <h1>Princess Aurora's Wisdom Quiz</h1>
+
+    <div id="infoBtn" tabindex="0" role="button" aria-label="Show educational help information">i</div>
+    <div id="infoPanel" role="region" aria-live="polite" aria-hidden="true">
+      <strong>Need Help?</strong>
+      <ul>
+        <li>Deepfakes are AI-generated fake images or videos that can mislead or harm.</li>
+        <li>Grooming is when someone builds fake trust to exploit others online.</li>
+        <li>Always protect your personal info and be cautious about what you share.</li>
+        <li>Report suspicious behaviour to trusted adults or authorities.</li>
+        <li>Learning to spot online risks helps keep you safe in the digital world.</li>
+      </ul>
+    </div>
+
+    <div id="progress-container" aria-label="Quiz progress bar">
+      <div id="progress-bar"></div>
+    </div>
+
+    <div id="quiz">
+      <div id="quizContent">
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+        <div id="feedback" role="alert" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div id="result" aria-live="polite"></div>
+  </div>
+
+  <canvas id="confetti-canvas"></canvas>
+  <div id="sparkle-cursor"></div>
+
+  <script>
+    const quizData = [
+      { q:"1. What is a deepfake?", type:"mcq", opts:["A fantasy creature","An AI‑generated fake image or video","A password type","A low‑res video"], ans:1, explain:"Deepfakes are AI-generated videos or images that look real but are fake." },
+      { q:"2. If a stranger asks for your photo:", type:"mcq", opts:["Send it","Ignore & report","Ask theirs","Post it"], ans:1, explain:"You should never send personal photos to strangers. Report them instead." },
+      { q:"3. Why avoid sharing personal details?", type:"mcq", opts:["It’s boring","People copy style","Leads to scams","Makes friends"], ans:2, explain:"Personal details can be misused for scams, identity theft, or stalking." },
+      { q:"4. Sign of a fake video call:", type:"mcq", opts:["No blinking","Great lighting","Funny accent","Noise"], ans:0, explain:"Deepfake videos often have glitches like no blinking or stiff motion." },
+      { q:"5. Who to tell if unsure online?", type:"mcq", opts:["Nobody","The stranger","Trusted adult","Self"], ans:2, explain:"When in doubt, always seek advice from a trusted adult or friend." },
+      { q:"6. Match these terms:", type:"match", pairs:{
+          "Grooming":"Building fake trust to exploit",
+          "Deepfake":"AI‑generated video that looks real",
+          "Watermark":"Marks images to prevent misuse"
+        }, explain: "Grooming is when someone builds trust to manipulate. Deepfakes are AI videos. Watermarks protect content." 
+      },
+      { q:"7. Match these tools:", type:"match", pairs:{
+          "Strong Password":"Sparkle!123",
+          "Two-Factor Auth":"Code sent to your phone",
+          "Trusted Adult":"A parent or teacher you trust"
+        }, explain: "Strong passwords and 2FA protect your accounts. Trusted adults can support you." 
+      },
+      { q:"8. If it feels off online:", opts:["Ignore it","Screenshot & tell","Post about it","Keep testing"], type:"mcq", ans:1, explain:"Taking screenshots and reporting to a trusted adult is safest." }
+    ];
+
+    let idx=0, score=0;
+    const qEl=document.getElementById("question"),
+          oEl=document.getElementById("options"),
+          fb=document.getElementById("feedback"),
+          res=document.getElementById("result"),
+          progressBar=document.getElementById("progress-bar"),
+          quizContent=document.getElementById("quizContent"),
+          infoBtn=document.getElementById("infoBtn"),
+          infoPanel=document.getElementById("infoPanel"),
+          confettiCanvas = document.getElementById('confetti-canvas'),
+          ctx = confettiCanvas.getContext('2d');
+
+    // Setup confetti canvas size
+    function resizeCanvas() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Confetti particles
+    const confettiParticles = [];
+    const colors = ['#FF69B4', '#FF1493', '#FFC0CB', '#FFB6C1'];
+
+    class ConfettiParticle {
+      constructor() {
+        this.x = Math.random() * confettiCanvas.width;
+        this.y = Math.random() * confettiCanvas.height - confettiCanvas.height;
+        this.size = Math.random() * 8 + 4;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.speed = Math.random() * 3 + 2;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.spin = (Math.random() - 0.5) * 0.1;
+      }
+      update() {
+        this.y += this.speed;
+        this.x += Math.sin(this.angle) * 2;
+        this.angle += this.spin;
+        if (this.y > confettiCanvas.height) {
+          this.y = -this.size;
+          this.x = Math.random() * confettiCanvas.width;
+        }
+      }
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y, this.size, this.size / 2, this.angle, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    }
+
+    function createConfetti(num) {
+      for(let i=0; i<num; i++) {
+        confettiParticles.push(new ConfettiParticle());
+      }
+    }
+    function drawConfetti() {
+      ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      confettiParticles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(drawConfetti);
+    }
+
+    function startConfetti() {
+      createConfetti(150);
+      drawConfetti();
+      // Stop confetti after 8 seconds
+      setTimeout(() => {
+        confettiParticles.length = 0;
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      }, 8000);
+    }
+
+    function updateProgress(){
+      progressBar.style.width = ((idx)/quizData.length)*100 + "%";
+    }
+
+    function loadQ(){
+      fb.textContent=""; res.textContent="";
+      updateProgress();
+
+      quizContent.classList.remove("fade-in","fade-out");
+
+      const cur=quizData[idx];
+      qEl.textContent=cur.q;
+      oEl.innerHTML="";
+      if(cur.type==="mcq"){
+        cur.opts.forEach((o,i)=>{
+          const btn=document.createElement("button");
+          btn.textContent=o;
+          btn.onclick=()=>checkMCQ(i);
+          oEl.appendChild(btn);
+        });
+      } else {
+        const terms=Object.keys(cur.pairs),
+              defs=Object.values(cur.pairs).sort(()=>0.5-Math.random());
+        const container=document.createElement("div");
+        container.className="match-container";
+        terms.forEach(t=>{
+          const sel=document.createElement("select");
+          sel.dataset.term=t;
+          const ph=document.createElement("option");
+          ph.textContent=`— select for "${t}" —`; ph.disabled=true; ph.selected=true;
+          sel.appendChild(ph);
+          defs.forEach(d=>{
+            const opt=document.createElement("option");
+            opt.value=d; opt.textContent=d;
+            sel.appendChild(opt);
+          });
+          container.appendChild(sel);
+        });
+        oEl.appendChild(container);
+        const chk=document.createElement("button");
+        chk.textContent="Check Matches";
+        chk.className="choice-button";
+        chk.onclick=checkMatch;
+        oEl.appendChild(chk);
+      }
+    }
+
+    function checkMCQ(i){
+      const cur=quizData[idx];
+      if(i===cur.ans){
+        fb.innerHTML=`✅ Correct!<br><em>${cur.explain}</em>`;
+        score++;
+      } else {
+        fb.innerHTML=`❌ Oops! Correct: "${cur.opts[cur.ans]}"<br><em>${cur.explain}</em>`;
+      }
+      disableAll();
+      nextBtn();
+    }
+
+    function checkMatch(){
+      const cur=quizData[idx];
+      const sels=oEl.querySelectorAll("select");
+      let c=0;
+      sels.forEach(s=>{
+        if(s.value===cur.pairs[s.dataset.term]) c++;
+      });
+      fb.innerHTML=(c===sels.length)
+        ? `✅ All correct!<br><em>${cur.explain}</em>`
+        : `❌ ${c}/${sels.length} correct.<br><em>${cur.explain}</em>`;
+      if(c===sels.length) score++;
+      disableAll();
+      nextBtn();
+    }
+
+    function disableAll(){
+      oEl.querySelectorAll("button").forEach(b=>b.disabled=true);
+      oEl.querySelectorAll("select").forEach(s=>s.disabled=true);
+    }
+
+    function nextBtn(){
+      const nb=document.createElement("button");
+      nb.className="choice-button";
+      nb.textContent=idx<quizData.length-1?"Next Question":"Finish Quiz";
+      nb.onclick=()=>{
+        quizContent.classList.remove("fade-in");
+        quizContent.classList.add("fade-out");
+        setTimeout(()=>{
+          idx++;
+          if(idx<quizData.length){
+            loadQ();
+          } else {
+            showResults();
+            startConfetti();
+          }
+          quizContent.classList.remove("fade-out");
+          quizContent.classList.add("fade-in");
+        },400);
+      };
+      fb.appendChild(nb);
+    }
+
+    function showResults(){
+      qEl.textContent="Quiz Complete!";
+      oEl.innerHTML="";
+      fb.innerHTML="";
+      updateProgress();
+      res.innerHTML=`
+        <p>You got <strong>${score}</strong> out of <strong>${quizData.length}</strong> correct! 🎉</p>
+        <div class="center-btn">
+          <a href="page10.html"><button class="choice-button">Continue with the Adventure</button></a>
+        </div>`;
+    }
+
+    // Initialize quiz on page load
+    loadQ();
+
+    // Magic wand cursor movement
+    const sparkleCursor = document.getElementById("sparkle-cursor");
+    window.addEventListener('mousemove', e => {
+      sparkleCursor.style.left = e.clientX + 'px';
+      sparkleCursor.style.top = e.clientY + 'px';
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
