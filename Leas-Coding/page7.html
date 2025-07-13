@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fairy Godmother’s Help</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 960px;
+      height: 540px;
+      overflow: hidden;
+      font-family: 'Playfair Display', serif;
+      background-image: url("castle.jpg");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: #4b004b;
+    }
+
+    .container {
+      background: rgba(240, 255, 250, 0.92);
+      border: 3px solid #7fffd4;
+      border-radius: 20px;
+      padding: 30px 40px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 700px;
+      backdrop-filter: blur(8px);
+      animation: fadeSlideIn 1.2s ease forwards;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      color: #008080;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      font-family: 'Great Vibes', cursive;
+    }
+
+    p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .choice-button {
+      background: gold;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1.1em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      color: #4b004b;
+      font-family: Georgia, serif;  /* <-- font changed here */
+    }
+
+    .choice-button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: sparkleFade 0.5s forwards;
+      filter: drop-shadow(0 0 3px gold);
+      z-index: 9999;
+    }
+
+    @keyframes sparkleFade {
+      to {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <audio id="correctSound" src="correct.mp3" autoplay></audio>
+  
+  <audio id="clickSound" src="mouse.mp3" preload="auto"></audio>
+
+  <div class="container">
+    <h1>Help is Magical ✨</h1>
+    <p>Aurora sent the video to her fairy godmother, who used her wisdom to expose the illusion!</p>
+    <p>Never hesitate to ask for help from someone you trust. You’re never alone in the digital world.</p>
+    <a href="page8.html" id="continueLink"><button class="choice-button">Continue the Adventure</button></a>
+  </div>
+
+  <script>
+   
+    document.addEventListener('mousemove', e => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.pageX + 'px';
+      sparkle.style.top = e.pageY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 500);
+    });
+
+    
+    window.addEventListener('DOMContentLoaded', () => {
+      const sound = document.getElementById('correctSound');
+      sound.play().catch(() => {
+        document.body.addEventListener('click', () => {
+          sound.play();
+        }, { once: true });
+      });
+    });
+
+   
+    const clickSound = document.getElementById('clickSound');
+    const continueLink = document.getElementById('continueLink');
+
+    continueLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      clickSound.currentTime = 0;
+      clickSound.play();
+      setTimeout(() => {
+        window.location.href = continueLink.href;
+      }, 300); 
+    });
+  </script>
+</body>
+</html>
+
+
