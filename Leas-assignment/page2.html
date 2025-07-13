@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Beware the Magic Mirror</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url("castle.jpg") center/cover no-repeat;
+      font-family: 'Playfair Display', serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chat-window {
+      width: 420px;
+      max-width: 90%;
+      height: 520px;
+      background: rgba(255, 240, 250, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      color: #4b004b;
+    }
+
+    .chat-header {
+      background: #ffdaf0;
+      padding: 15px;
+      font-size: 1.2em;
+      color: #8B008B;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 2px solid #ffc0cb;
+      position: relative;
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      padding: 20px;
+      overflow-y: auto;
+      font-size: 1em;
+      color: #333;
+    }
+
+    .message {
+      background: #fffaf0;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      max-width: 80%;
+      white-space: pre-wrap;
+      position: relative;
+    }
+
+    .from-prince {
+      align-self: flex-start;
+      border-left: 5px solid pink;
+      color: #333;
+    }
+
+    .chat-buttons {
+      display: flex;
+      justify-content: space-around;
+      padding: 15px;
+      border-top: 2px solid #ffc0cb;
+      background: #fff0f5;
+    }
+
+    .chat-buttons a button {
+      padding: 10px 20px;
+      font-size: 0.95em;
+      font-family: 'Georgia', serif;
+      background: gold;
+      border: none;
+      border-radius: 10px;
+      color: #4b004b;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .chat-buttons a button:hover {
+      background: linear-gradient(to right, gold, orange);
+      transform: scale(1.05);
+    }
+
+    /* Info icon inside container */
+    .info-icon {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: gold;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+      z-index: 1000;
+      animation: pulseGlow 1.8s infinite, bounceIcon 3s ease-in-out infinite;
+      user-select: none;
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
+      50% { box-shadow: 0 0 18px rgba(255, 215, 0, 0.95); }
+      100% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
+    }
+
+    @keyframes bounceIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .info-banner {
+      position: absolute;
+      top: 55px;
+      right: 15px;
+      background: #fff0f8;
+      border: 2px solid pink;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 0.9em;
+      width: 240px;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      z-index: 999;
+      color: #8B008B;
+      font-style: italic;
+      user-select: none;
+      line-height: 1.4;
+    }
+
+    /* Scrollbar styling */
+    .chat-messages::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: #ffc0cb;
+      border-radius: 10px;
+    }
+
+    /* Sparkle */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: gold;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      animation: sparkleFade 0.5s forwards;
+      filter: drop-shadow(0 0 3px gold);
+      z-index: 9999;
+    }
+
+    @keyframes sparkleFade {
+      to {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background music -->
+  <audio id="bgMusic" src="magic-mirror.mp3" loop></audio>
+  <!-- Notification sound -->
+  <audio id="notificationSound" src="notification.mp3" preload="auto"></audio>
+  <!-- Click sound -->
+  <audio id="clickSound" src="mouse.mp3" preload="auto"></audio>
+
+  <!-- Sparkle trail -->
+  <script>
+    document.addEventListener('mousemove', e => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.pageX + 'px';
+      sparkle.style.top = e.pageY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 500);
+    });
+  </script>
+
+  <!-- Chatbox -->
+  <div class="chat-window">
+    <div class="chat-header">Prince ✨
+      <!-- Info icon inside header -->
+      <div class="info-icon" id="infoToggle" title="Click for safety tips" role="button" tabindex="0" aria-pressed="false" aria-label="Toggle safety information">ℹ️</div>
+    </div>
+
+    <div class="info-banner" id="infoBanner" role="region" aria-live="polite">
+      <p>Be cautious of video calls from strangers online. They may use AI to fake faces and voices.</p>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="message from-prince" id="typingMessage"></div>
+    </div>
+    <div class="chat-buttons">
+      <a href="page4.html" id="proceedLink"><button>Proceed Carefully</button></a>
+      <a href="page3.html" id="goBackLink"><button>Go Back</button></a>
+    </div>
+  </div>
+
+  <script>
+    // Typewriter effect
+    const message = "Would you like to video call? I want to show you something special!";
+    const typingElement = document.getElementById('typingMessage');
+    const notificationSound = document.getElementById('notificationSound');
+    let i = 0;
+    function typeWriter() {
+      if (i < message.length) {
+        typingElement.textContent += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, 50);
+      } else {
+        // Play notification sound when typing finishes
+        notificationSound.volume = 0.4;
+        notificationSound.play().catch(() => {});
+      }
+    }
+    window.onload = () => {
+      const bgMusic = document.getElementById("bgMusic");
+      bgMusic.volume = 0.3;
+      bgMusic.play().catch(() => {});
+      typeWriter();
+    };
+
+    // Info toggle
+    const infoToggle = document.getElementById("infoToggle");
+    const infoBanner = document.getElementById("infoBanner");
+    infoToggle.addEventListener("click", () => {
+      const isVisible = infoBanner.style.display === "block";
+      infoBanner.style.display = isVisible ? "none" : "block";
+      infoToggle.setAttribute("aria-pressed", !isVisible);
+    });
+    infoToggle.addEventListener("keydown", (e) => {
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        infoToggle.click();
+      }
+    });
+
+    // Click sound & delayed navigation for buttons
+    const clickSound = document.getElementById('clickSound');
+
+    function handleLinkClick(event, url) {
+      event.preventDefault();
+      clickSound.currentTime = 0;
+      clickSound.play();
+      setTimeout(() => {
+        window.location.href = url;
+      }, 300);
+    }
+
+    const proceedLink = document.getElementById('proceedLink');
+    const goBackLink = document.getElementById('goBackLink');
+
+    proceedLink.addEventListener('click', (e) => handleLinkClick(e, 'page4.html'));
+    goBackLink.addEventListener('click', (e) => handleLinkClick(e, 'page3.html'));
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
